@@ -24,10 +24,19 @@ private struct PinnedModifier: ViewModifier {
                 if let coordinator {
                     GeometryReader { proxy in
                         let frame = proxy.frame(in: .named(coordinator.scrollViewName))
+                        let isReachedTop = frame.minY <= 0
                         Color.clear
+                            .onAppear {
+                                coordinator.headerFrames[id] = frame
+                            }
                             .onChange(of: frame) { frame in
                                 coordinator.headerFrames[id] = frame
-                                onReachedTop?(frame.minY <= 0)
+                            }
+                            .onAppear {
+                                onReachedTop?(isReachedTop)
+                            }
+                            .onChange(of: isReachedTop) { isReachedTop in
+                                onReachedTop?(isReachedTop)
                             }
                     }
                     .hidden()

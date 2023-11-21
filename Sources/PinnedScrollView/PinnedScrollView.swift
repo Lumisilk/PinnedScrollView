@@ -24,44 +24,63 @@ public extension View {
 }
 
 struct PinnedScrollViewModifier_Previews: PreviewProvider {
-    struct Child: View {
-        @Binding var isReached: Bool
-        
-        var body: some View {
-            Text("Heading" + (isReached ? " Reached" : ""))
-                .font(.title)
-                .frame(maxWidth: .infinity)
-                .backport.background {
-                    isReached ? Color.green : .yellow
-                }
-                .pinned { isReachedTop in
-                    isReached = isReachedTop
-                }
-            
-            Text(
-                "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
-            )
-            .padding(8)
-        }
-    }
     
-    
-    struct Container: View {
-        @State var isHeaderReachedTop: [Bool] = .init(repeating: false, count: 20)
-
+    struct SimpleExample: View {
         var body: some View {
             ScrollView {
                 VStack(spacing: 0) {
-                    ForEach(Array(0..<isHeaderReachedTop.count), id: \.self) { index in
-                        Child(isReached: $isHeaderReachedTop[index])
+                    ForEach(0..<20) { _ in
+                        Text("Header")
+                            .font(.title)
+                            .frame(maxWidth: .infinity)
+                            .backport.background {
+                                Color.green
+                            }
+                            .pinned()
+                        
+                        Text(
+                            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
+                        )
+                        .padding(8)
                     }
                 }
             }
             .pinnedScrollView()
         }
     }
+    
+    struct BindingExample: View {
+        @State var isHeaderReachedTop: [Bool] = .init(repeating: false, count: 20)
+
+        var body: some View {
+            ScrollView {
+                VStack(spacing: 0) {
+                    ForEach(Array(0..<isHeaderReachedTop.count), id: \.self) { index in
+                        Text("Header" + (isHeaderReachedTop[index] ? " Reached" : ""))
+                            .font(.title)
+                            .frame(maxWidth: .infinity)
+                            .backport.background {
+                                isHeaderReachedTop[index] ? Color.green : .yellow
+                            }
+                            .pinned { isReachedTop in
+                                print(isReachedTop)
+                                isHeaderReachedTop[index] = isReachedTop
+                            }
+                        
+                        Text(
+                            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
+                        )
+                        .padding(8)
+                    }
+                }
+            }
+            .listStyle(.plain)
+            .pinnedScrollView()
+        }
+    }
 
     static var previews: some View {
-        Container()
+        SimpleExample()
+        BindingExample()
     }
 }
