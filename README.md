@@ -2,6 +2,8 @@
 
 PinnedScrollView is a tiny SwiftUI library that helps you pin any view in a scrollview like a header, without using  `LazyVStack` and `Section`.
 
+<img src="https://github.com/Lumisilk/PinnedScrollView/assets/11924267/d18bed21-db75-4942-a85a-93eac4771894" width="300"/>
+
 ## Usage
 
 ```swift
@@ -17,6 +19,7 @@ var body: some View {
         }
     }
     .pinnedScrollView() // 2
+}
 ```
 
 1. Add `.pinned()` modifier to the view you want to pin within the scrollview
@@ -30,6 +33,7 @@ You can also provide a optional closure `onReachedTop: (Bool) -> ()` to the `pin
 
 ```swift
 @State private var isHeaderReachedTop = false
+
 // ...
 Text("Header" + (isHeaderReachedTop ? " Reached" : ""))
     .pinned { isReachedTop in
