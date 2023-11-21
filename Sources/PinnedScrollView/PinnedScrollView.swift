@@ -18,6 +18,9 @@ private struct PinnedScrollViewModifier: ViewModifier {
 }
 
 public extension View {
+    /// The `.pinnedScrollView()` modifier is applied to a ScrollView to enable the pinning functionality. 
+    ///
+    /// This modifier should be used on the ScrollView that contains views with the `.pinned()` modifier.
     func pinnedScrollView() -> some View {
         modifier(PinnedScrollViewModifier())
     }

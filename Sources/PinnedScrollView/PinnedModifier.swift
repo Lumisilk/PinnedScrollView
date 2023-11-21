@@ -59,6 +59,12 @@ private struct PinnedModifier: ViewModifier {
 }
 
 public extension View {
+    /// The .pinned() modifier is used to pin a view within a ScrollView. 
+    ///
+    /// When applied, it keeps the view fixed at the top of the ScrollView while the rest of the content scrolls.
+    /// Note: You must also apply the `.pinnedScrollView()` modifier to the corresponding ScrollView for this modifier to have any effect.
+    ///
+    /// - Parameter onReachedTop: An optional closure that is executed when the pinned view reaches or leaves the top of the ScrollView. Note that this value remains `true` if the pinned view scrolls upwards out of the visible range.
     func pinned(onReachedTop: ((Bool) -> ())? = nil) -> some View {
         modifier(PinnedModifier(onReachedTop: onReachedTop))
     }
