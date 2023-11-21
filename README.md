@@ -43,7 +43,7 @@ Text("Header" + (isHeaderReachedTop ? " Reached" : ""))
 
 ## Limitation
 
-PinnedScrollView needs iOS/iPadOS 14.0.
+PinnedScrollView requires iOS/iPadOS 14.0.
 
 PinnedScrollView only supports vertical `ScrollView` and doesn't support horizontal `ScrollView` or the `List` view.
 
@@ -56,3 +56,13 @@ Use [Swift Package Manager](https://developer.apple.com/documentation/xcode/addi
 ## License
 
 This package is licensed under the MIT open-source license.
+
+## Inspiration
+
+The implementation of PinnedScrollView was inspired by objc.io's course on [Sticky Headers for Scroll Views](https://talk.objc.io/episodes/S01E333-sticky-headers-for-scroll-views).
+Unlike the original implementation from objc.io, which uses `PreferenceKey` to coordinate the frames of headers and can lead to performance bottlenecks, PinnedScrollView use `onChange` to efficiently record the frames of headers.
+
+Additionally, PinnedScrollView use Combine's `debounce` and publisher to minimize the re-evaluation count of the headers' body, aiming to optimize performance.
+
+Special thanks to [@auramagi](https://github.com/auramagi) for the algorithm suggestions.
+
